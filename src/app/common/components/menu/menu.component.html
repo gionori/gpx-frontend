@@ -1,0 +1,35 @@
+<mat-toolbar color="secondary">
+    <button
+        [matBadgeHidden]="pendingToRead == 0"
+        [matBadge]="pendingToRead"
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with menu icon"
+        class="example-icon" 
+        mat-icon-button 
+        matBadgeSize="small"
+    >
+        <mat-icon>notifications</mat-icon>
+    </button>
+
+    
+    <mat-menu #menu="matMenu">
+
+        @for (notification of notifications$$(); track $index) {
+            <button mat-menu-item (click)="handleRead(notification)">
+              @if (notification.isReaded) {
+                {{ notification.title }}
+              } @else {
+                <b>{{ notification.title }}</b>
+              }
+            </button>
+        } @empty {
+          <button mat-menu-item>
+            <i>
+              No hay notificaciones pendientes
+            </i>
+          </button>
+        }
+
+    </mat-menu>
+
+</mat-toolbar>

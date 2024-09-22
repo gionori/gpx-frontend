@@ -1,0 +1,103 @@
+<h2 class="mt-5">
+    @if (person$$().id) {
+        Actualización de {{  person$$().name  }}
+    } @else {
+        Nueva persona
+    }
+</h2>
+
+<div class="row mt-5">
+    <div class="col-md-6 col-sm-12">
+        <p>
+            <small>
+                * Campos requeridos
+            </small>
+        </p>
+
+        <form [formGroup]="form" (ngSubmit)="handleSubmit()">
+            <mat-form-field appearance="outline" class="w-100 mt-3">
+                <mat-label>Nombre</mat-label>
+                <input 
+                    autocomplete="off"
+                    matInput 
+                    formControlName="name" 
+                />
+                @if (!form.get('name')?.valid) {
+                    <mat-error>El nombre es requerido y no debe exceder los 200 caracteres</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100 mt-3">
+                <mat-label>Apellido paterno</mat-label>
+                <input 
+                    autocomplete="off"
+                    matInput 
+                    formControlName="paternal"
+                />
+                @if (!form.get('paternal')?.valid) {
+                    <mat-error>El apellido paterno es requerido y no debe exceder los 200 caracteres</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100 mt-3">
+                <mat-label>Apellido materno</mat-label>
+                <input 
+                    autocomplete="off"
+                    matInput 
+                    formControlName="maternal"
+                />
+                @if (!form.get('maternal')?.valid) {
+                    <mat-error>El apellido materno es requerido y no debe exceder los 200 caracteres</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100 mt-3">
+                <mat-label>Dirección</mat-label>
+                <textarea 
+                    matInput
+                    formControlName="address"
+                >
+                </textarea>
+                @if (!form.get('address')?.valid) {
+                    <mat-error>La dirección es requerida</mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-100 mt-3">
+                <mat-label>Teléfono</mat-label>
+                <input 
+                    autocomplete="off"
+                    formControlName="phone"
+                    matInput
+                />
+                @if (!form.get('phone')?.valid) {
+                    <mat-error>El número telefónico debe ser a 10 dígitos sin separadores</mat-error>
+                }
+            </mat-form-field>
+
+            <p class="mt-3">
+                <button
+                    type="button"
+                    mat-raised-button
+                    class="me-2"
+                    routerLink="/"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    mat-raised-button
+                    color="primary"
+                    [disabled]="!form.valid || isLoading$$()"
+                >
+                    @if(isLoading$$()) {
+                        Espere un momento...
+                    } @else {
+                        Guardar
+                    }
+                </button>
+            </p>
+        </form>
+    </div>
+</div>

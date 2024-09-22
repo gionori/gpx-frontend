@@ -1,0 +1,124 @@
+<h2 class="mt-5">Personas</h2>
+
+<div class="row mt-5">
+    <div class="col">
+        <form 
+          [formGroup]="form"
+          (ngSubmit)="handleSubmit()"
+        >
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Escribe el nombre de la persona</mat-label>
+                <input 
+                    matInput 
+                    type="text" 
+                    formControlName="search"
+                    (keyup)="handleSubmit()"
+                >
+                @if (filter.length != 0) {
+                  <button 
+                    type="button"
+                    matSuffix 
+                    mat-icon-button 
+                    aria-label="Clear" 
+                    (click)="filter = ''"
+                  >
+                    <mat-icon>close</mat-icon>
+                  </button>
+                }
+              </mat-form-field>
+        </form>
+    </div>
+</div>
+
+<div class="row mt-2">
+  <div class="col">
+    <button
+      mat-raised-button
+      color="primary"
+      routerLink="form"
+    >
+      <mat-icon>add</mat-icon>
+      Agregar persona
+    </button>
+  </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col">
+        <div class="example-container mat-elevation-z8">
+            @if (isLoading$$()) {
+              <div class="example-loading-shade">
+                  <mat-spinner></mat-spinner>
+              </div>
+            }
+          
+            <div class="example-table-container">
+          
+              <table mat-table [dataSource]="persons$$()" class="example-table"
+                     matSort matSortActive="created" matSortDisableClear matSortDirection="desc">
+                
+                <ng-container matColumnDef="name">
+                  <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                  <td mat-cell *matCellDef="let person">{{ person.name }}</td>
+                </ng-container>
+          
+                <ng-container matColumnDef="paternal">
+                  <th mat-header-cell *matHeaderCellDef>Apellido paterno</th>
+                  <td mat-cell *matCellDef="let person">{{ person.maternal }}</td>
+                </ng-container>
+          
+                <ng-container matColumnDef="maternal">
+                  <th mat-header-cell *matHeaderCellDef>Apellido manterno</th>
+                  <td mat-cell *matCellDef="let person">{{ person.paternal }}</td>
+                </ng-container>
+          
+                <ng-container matColumnDef="address">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    Dirección
+                  </th>
+                  <td mat-cell *matCellDef="let person">{{ person.address }}</td>
+                </ng-container>
+        
+                <ng-container matColumnDef="phone">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    Teléfono
+                  </th>
+                  <td mat-cell *matCellDef="let person">{{ person.phone }}</td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    Acciones
+                  </th>
+                  <td mat-cell *matCellDef="let person">
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      routerLink="form/{{ person.id }}"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="handleRemove(person)"
+                    >
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+          
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let person; columns: displayedColumns;"></tr>
+              </table>
+            </div>
+          
+            <mat-paginator [length]="count$$()" [pageSize]="pageSize" (page)="search()"></mat-paginator>
+        </div>
+    </div>
+</div>
+
+
+  
